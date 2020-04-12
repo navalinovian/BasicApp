@@ -1,10 +1,19 @@
 package org.aplas.basicapp;
 
-import android.graphics.drawable.GradientDrawable;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.GradientDrawable;
 import android.view.View;
-import android.widget.*;
+import android.widget.Adapter;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
+import android.widget.TableLayout;
+import android.widget.TextView;
+
+import java.util.List;
 
 public class ElementTest extends ViewTest {
     private View component;
@@ -165,20 +174,23 @@ public class ElementTest extends ViewTest {
         }
     }
 
-    public void testSpinnerContent(java.util.List expected) {
+    public void testSpinnerContent(List expected) {
         String msg = msgHeader + "Element spinner content is not suitable\n";
-        //testItem(expected,((Spinner)component).getGravity(),msg,1);
+
         Adapter list = ((Spinner)component).getAdapter();
-        boolean isValid = true;
+        String res = "";
         for (int i=0; i<list.getCount(); i++){
+            res += list.getItem(i)+";";
+            /*
             if (!expected.get(i).equals(list.getItem(i))) {
                 isValid = false;
-            }
+            }*/
         }
-        testItem(true,isValid,msg,1);
+        testItem(listToString(expected),res,msg,1);
     }
 
     public void testSpinnerContent(String[] expected) {
+        /*
         String msg = msgHeader + "Element spinner content is not suitable\n";
         //testItem(expected,((Spinner)component).getGravity(),msg,1);
         Adapter list = ((Spinner)component).getAdapter();
@@ -189,6 +201,15 @@ public class ElementTest extends ViewTest {
             }
         }
         testItem(true,isValid,msg,1);
+        */
+        String msg = msgHeader + "Element spinner content is not suitable\n";
+
+        Adapter list = ((Spinner)component).getAdapter();
+        String res = "";
+        for (int i=0; i<list.getCount(); i++){
+            res += list.getItem(i)+";";
+        }
+        testItem(arrayToString(expected),res,msg,1);
     }
 
     public void testSpinnerContent(String expected) {
@@ -197,7 +218,7 @@ public class ElementTest extends ViewTest {
 
     public void testSelected(boolean expected) {
         String msg = msgHeader + "Element checked/selected value is not suitable\n";
-        if (component.getClass().equals(android.support.v7.widget.AppCompatCheckBox.class)) {
+        if (component.getClass().equals(CheckBox.class)) {
             testItem(expected,((CheckBox)component).isChecked(),msg,1);
         } else {
             testItem(expected,((RadioButton)component).isChecked(),msg,1);
@@ -239,5 +260,10 @@ public class ElementTest extends ViewTest {
     public void testStrectchColumn(boolean expected) {
         String msg = msgHeader + "Element column strecth is not suitable\n";
         testItem(expected,((TableLayout)component).isStretchAllColumns(),msg,1);
+    }
+
+    public void testVisibility(int visibility) {
+        String msg = msgHeader + "Element visibility is not suitable\n";
+        testItem(visibility,component.getVisibility(),msg,1);
     }
 }

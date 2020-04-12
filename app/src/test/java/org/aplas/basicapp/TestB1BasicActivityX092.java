@@ -1,9 +1,9 @@
 package org.aplas.basicapp;
 
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Space;
 
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -21,7 +21,7 @@ import java.util.List;
 @Config(manifest=Config.NONE)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 
-public class TestA1BasicUI041 extends ViewTest {
+public class TestB1BasicActivityX092 extends ViewTest {
     private MainActivity activity;
     private RelativeLayout layout;
 
@@ -45,41 +45,43 @@ public class TestA1BasicUI041 extends ViewTest {
         /******** Check components completion ********/
         /** Specified Elements **/
         List<Class> elements = new ArrayList<>();
-        elements.add(Space.class); //Element 1
-        elements.add(LinearLayout.class);  //Element 2
+        elements.add(ImageView.class); //Element 1
         /************************/
 
         //JUnit Test
-        int prevElement = 2;
+        int prevElement = 8;
         testCompletion(prevElement,elements,layout);
     }
 
     @Test
-    public void check_01_Space_Properties() { //Check Layout Specification
+    public void check_01_ImageView_Properties() { //Check Layout Specification
         //Component properties value
-        int compIdx = 2;
-        Space component = (Space) layout.getChildAt(compIdx);
+        int compIdx = 8;
+        ImageView component = (ImageView) layout.getChildAt(compIdx);
         ElementTest comp = new ElementTest(component);
 
         //Test each item
-        comp.testWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-        comp.testHeight(11);
+        comp.testIdName("imgFormula");
+        comp.testWidth(-1);
+        comp.testHeight(-1);
+        comp.testImageSrc("formula");
         comp.testLayoutBelow(layout.getChildAt(compIdx-1).getId());
+        comp.testLinearHorizontal(true);
+        comp.testTopMargin(2);
+        comp.testVisibility(View.INVISIBLE);
     }
 
     @Test
-    public void check_02_ChildLayout_Properties() throws Exception { //Check Button Specification
-        //Component properties value
-        int compIdx=3;
-        LinearLayout component = (LinearLayout) layout.getChildAt(compIdx);
+    public void check_02_FormulaBox_Event() { //Check Layout Specification
+        int compIdx = 8;
+        ImageView component = (ImageView) layout.getChildAt(compIdx);
         ElementTest comp = new ElementTest(component);
 
-        //Component properties value
-        comp.testIdName("child1");
-        comp.testWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-        comp.testHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-        comp.testOrientation(LinearLayout.HORIZONTAL);
-        comp.testLayoutBelow(layout.getChildAt(compIdx-1).getId());
-    }
+        //Check Visibility
+        ((CheckBox)activity.findViewById(R.id.chkFormula)).setChecked(true);
+        comp.testVisibility(View.VISIBLE);
 
+        ((CheckBox)activity.findViewById(R.id.chkFormula)).setChecked(false);
+        comp.testVisibility(View.INVISIBLE);
+    }
 }

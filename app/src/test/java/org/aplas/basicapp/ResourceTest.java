@@ -1,7 +1,6 @@
 package org.aplas.basicapp;
 
 import android.content.res.Resources;
-import android.graphics.Typeface;
 
 public class ResourceTest extends ViewTest {
     private Resources resource;
@@ -20,6 +19,9 @@ public class ResourceTest extends ViewTest {
         int resId = resource.getIdentifier(name, "array", getClass().getPackage().getName());
         testItem(0,resId,"String array "+name+" id is not exist",2);
         String[] str = resource.getStringArray(resId);
+        testItem(arrayToString(expected),arrayToString(str),"String array "+name+" value is not valid",1);
+        /*
+        String[] str = resource.getStringArray(resId);
         boolean found=false;
         int i=0;
         while (!found && i<expected.length) {
@@ -28,6 +30,7 @@ public class ResourceTest extends ViewTest {
             testItem(expected[i],str[i],"String array "+name+" value is not valid",1);
         }
         testItem(!found,!found,"String array "+name+" value is not valid",4);
+        */
     }
 
     public void testColorResource(String name,int expected) {
